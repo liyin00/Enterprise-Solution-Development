@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <!-- JQuery  -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <!-- Stripe -->
+        <script src="https://js.stripe.com/v3/"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+        <title>View Deliveries</title>
+
+        <!-- External CSS styling -->
+    <link rel="stylesheet" href="../css/view_delivery.css">
+
+    <!--Import Rubik font-->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+    </style>
+
+    <!--Import Roboto font-->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+    </style>
+
+    <!--Import Patua One font-->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Patua+One&display=swap');
+    </style>
+
+    <!--Animate.js CDN-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+<style>
+    /* Center the loader */
+    #loader {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        z-index: 1;
+        width: 120px;
+        height: 120px;
+        margin: -76px 0 0 -76px;
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #CEA68C;
+        -webkit-animation: spin 2s linear infinite;
+        animation: spin 2s linear infinite;
+    }
+    
+    @-webkit-keyframes spin {
+        0% { -webkit-transform: rotate(0deg); }
+        100% { -webkit-transform: rotate(360deg); }
+    }
+    
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+    #myDiv {
+        display: none;
+        text-align: center;
+    }
+</style>
+
+    </head>
+
+    <body>
+        <header> 
+            <img class="logo" src="../images/logo.jpg" width='80px;' height='40px;' alt="logo">
+            <nav>
+                <ul class="nav__links">
+                    <li><a href="customer_home.html">Home</a></li>
+                    <li><a href="customer_view_delivery_details.html">View Deliveries</a></li>
+                    <li><a href="delivery_order.html">Add New Delivery</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                </ul>
+            </nav>
+            <button id="log-out" class='btn'>Log Out</button>
+        </header>
+        
+
+        <div id='app'>
+            <div class='container'>
+                <div class='row'>
+                    <div class='col'></div>
+                    <div class='col'><h1 v-if='hasDeliveries' class='pt-3' style='color:#CEA68C; font-family: "Patua One", cursive;'>My Deliveries</h1></div>
+                    <div class='col'></div>
+                </div>
+            </div>
+
+            <div class='container' v-if='error'>
+                <div class='row'>
+                    <div class='col mx-auto'><h1 class='pt-3 text-center' style='color:#CEA68C; font-family: "Patua One", cursive;'>You have no deliveries.</h1></div>
+                </div>
+            </div>
+            
+            <table v-if='hasDeliveries' class = "table table-striped animate__animated animate__backInUp" style = 'font-family: roboto; color: #808080;'>
+
+                <thead>
+                    <tr>
+                        <th>Delivery ID</th>
+                        <th>Delivery Item</th>
+                        <th>Delivery Description</th>
+                        <th>Delivery Status</th>
+                        <th>Delivery Date</th>
+                        <th>Pickup Location</th>
+                        <th>Destination</th>
+                        <th>Driver Mobile Number</th>
+                        <th>Payment Status</th>
+                    </tr>
+                    <tr v-for="delivery in deliveries">
+                        <td>{{delivery.delivery_ID}}</td>
+                        <td>{{delivery.delivery_item}}</td>
+                        <td>{{delivery.description}}</td>
+                        <td>{{delivery.delivery_status}}</td>
+                        <td>{{delivery.delivery_date.slice(0,-12)}}</td>
+                        <td>{{delivery.pickup_location}}</td>
+                        <td>{{delivery.destination}}</td>
+                        <td>{{delivery.driver_mobile}}</td>
+                        <td>{{delivery.payment_status}}</td>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+        <script>
+            document.getElementById("log-out").addEventListener("click", function(){
+                    localStorage.clear();
+                    location.replace("../landing.html");
+                });
+            var session = JSON.parse(localStorage.getItem("account_details"));
+            var customer_ID = session.customer_ID;
+            var get_details_url = "http://127.0.0.1:8000/api/v1/customer_view_details/" + customer_ID;
+            var app = new Vue({
+                el: "#app",
+                data:{
+                    hasDeliveries: false,
+                    deliveries: [],
+                    error: false,
+                    // loading: true
+                },
+                mounted: function(){
+                    this.getDeliveries()
+                },
+                methods:{
+                    getDeliveries: function(){
+                        const response =
+                        fetch(get_details_url)
+                            .then(response => response.json())
+                            .then(data => {
+                                // console.log(data);
+                                if (data.code >= 400) {
+                                    this.error = data.message;
+                                }
+                                if (data.code == 202){
+                                    this.hasDeliveries = true
+                                    this.deliveries = data.data.customer_view_details
+                                }
+                            })
+                            .catch(error => {
+                                console.log(this.message + error);
+
+                            });
+                    }
+                }
+            })
+
+        var myVar;
+        
+        function myFunction() {
+            myVar = setTimeout(showPage, 3000);
+        }
+            
+        function showPage() {
+            document.getElementById("loader").style.display = "none";
+            document.getElementById("myDiv").style.display = "block";
+        }
+        </script>
+    </body>
+
+
+</html>

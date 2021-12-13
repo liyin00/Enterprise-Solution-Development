@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- JQuery  -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- Stripe -->
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../css/view_delivery.css">
+
+     <!--Import Rubik font-->
+     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+    </style>
+
+    <!--Import Roboto font-->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+    </style>
+
+    <!--Import Patua One font-->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Patua+One&display=swap');
+    </style>
+
+    <title>Create New Delivery</title>
+
+</head>
+<body>
+    <header> 
+        <img class="logo" src="../images/logo.jpg" width='80px;' height='40px;' alt="logo">
+        <nav>
+            <ul class="nav__links">
+                <li><a href="../customer/customer_home.html">Home</a></li>
+                <li><a href="./customer_view_delivery_details.html">View Deliveries</a></li>
+                <li><a href="delivery_order.html">Add New Delivery</a></li>
+                <li><a href="../customer/profile.html">Profile</a></li>
+            </ul>
+        </nav>
+        <button id="log-out" class='btn'>Log Out</button>
+    </header>
+    <div id='app' class="container-fluid">
+
+        <div>
+            <div class="container">
+                <h1 class="display-4" style='color:#CEA68C; font-family: "Patua One", cursive;'>Delivery Order</h1>
+                <p class="lead">Fill in your delivery details and proceed for payment</p>
+            </div>
+        </div>
+
+        <form>
+
+            <div class="container">
+                <!-- Delivery Item -->
+                <div class="row">
+                    <div class="col-md">
+                        <div class="form-group">
+                            <label for="deliveryItem">Delivery Item</label>
+                            <input type="text" class="form-control" id="deliveryItem" placeholder="Enter Delivery Item" value="">
+                        </div>
+                    </div>
+                </div>
+                <!-- Description -->
+                <div class="row">
+                    <div class="col-md">
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <input type="text" class="form-control" id="description" placeholder="Delivery Item Description" value="">
+                        </div>
+                    </div> 
+                </div>
+                <!-- Size -->
+                <div class="row">
+                    <div class="col-md">
+                        <div class="form-group ">
+                            <label for="size">Size</label>
+                            <select id="size" class="form-control">
+                                <option selected>Small</option>
+                                <option>Medium</option>
+                                <option>Large</option>
+                            </select>
+                        </div>
+                    </div>
+                <!-- Product Weight -->
+                    <div class="col-md">
+                        <div class="form-group">
+                            <label for="weight">Product weight</label>
+                            <div class="input-group mb-3">
+                                <input type="number" class="form-control" id="weight" placeholder="Please input the product weight" value="">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="kg">kg</span>
+                                </div>
+                            </div>
+                        </div> 
+                    </div>
+
+                </div>
+        
+                <!-- pickup Address -->
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label for="pickup">Pickup Address</label>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" id="pickup" placeholder="" value="">
+                            </div>
+                        </div> 
+                    </div> 
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="pickup"></label>
+                            <div class="input-group mb-3 mt-2">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="pickup">Postal code</span>
+                                </div>
+                                <input type="number" class="form-control" id="pickupPostalCode" placeholder="" value="">
+                            </div>
+                        </div> 
+                    </div> 
+                </div>
+                <!-- Destination Address -->
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label for="destination">Destination Address</label>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" id="destination" placeholder="" value="">
+                            </div>
+                        </div> 
+                    </div> 
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="destination"></label>
+                            <div class="input-group mb-3 mt-2">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="destination">Postal code</span>
+                                </div>
+                                <input type="number" class="form-control" id="destinationPostalCode" placeholder="" value="">
+                            </div>
+                        </div> 
+                    </div> 
+                </div>
+                <!-- Receiver Name -->
+                <div class="row">
+                    <div class="col-md">
+                        <div class="form-group">
+                            <label for="receiver_name">Receiver's Name</label>
+                            <input type="text" class="form-control" id="receiver_name" placeholder="Enter receiver's name" value="">
+                        </div>
+                    </div> 
+                </div>
+                <!-- Date and Time  -->
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label for="date">Delivery Date</label>
+                            <div class="input-group mb-3">
+                                <input type="date" class="form-control" @change = "checkSchedule" id="date" min='2021-04-15' value='2021-04-15' max='2021-04-30' placeholder="" value="">
+                            </div>
+                        </div> 
+                    </div> 
+                    <div class="col-md-4">
+                        <div class="form-group ">
+                            <label for="time">Schedule</label>
+                            <select id="time" class="form-control">
+                                <option selected disabled hidden>Please select a timing</option>
+                                <option selected v-if='!availableSchedules'>No available timings!</option>
+                                <option selected value='8_to_10' v-if='t_8_to_10'>8 am to 10 am</option>
+                                <option value='10_to_12' v-if='t_10_to_12'>10 am to 12pm</option>
+                                <option value='12_to_2' v-if='t_12_to_2'>12pm to 2pm</option>
+                                <option value="2_to_4" v-if='t_2_to_4'>2pm to 4pm</option>
+                                <option value='4_to_6' v-if='t_4_to_6'>4pm to 6pm</option>
+                            </select>
+                        </div> 
+                    </div> 
+                </div>
+                <div>
+                    <li style='color:red; list-style:none;' v-for='err in error'>{{err}}</li>
+                </div>
+
+                <br>
+                <button type="button" class="btn btn-primary mb-3" @click='checkout' id="checkout-button">Checkout</button>
+            </form>  
+            </div>
+    </div>
+
+
+<script>
+    document.getElementById("log-out").addEventListener("click", function(){
+            localStorage.clear();
+            location.replace("../landing.html");
+        });
+
+    var app = new Vue({
+        el: "#app",
+        data: {
+            error: [],
+            t_2_to_4: false,
+            t_4_to_6: false,
+            t_8_to_10: false,
+            t_10_to_12: false,
+            t_12_to_2: false,
+            availableSchedules: false
+        },
+        mounted: function(){
+            this.checkSchedule();
+        },
+        methods: {
+            checkSchedule: function() {
+            var date = $("#date").val();
+            var time = $('#time').val();
+
+            //getting all schedules on selected date
+            var get_Schedule = "http://127.0.0.1:8000/api/v1/schedule/date/" + date;
+            const response =
+                            fetch(get_Schedule)
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.code === 404) {
+                                        // no available time slot for the day
+                                        this.availableSchedules = false;
+                                        this.t_8_to_10 = false;
+                                        this.t_10_to_12 = false;
+                                        this.t_12_to_2 = false;
+                                        this.t_2_to_4 = false;
+                                        this.t_4_to_6 = false;
+                                    }
+                                    else {
+                                        // there are available time slots for day selected
+                                        this.availableSchedules = true;
+                                        data.data.schedules.forEach(element => {
+                                            var count_t_8_to_10 = 0;
+                                            var count_t_10_to_12 = 0;
+                                            var count_t_12_to_2 = 0;
+                                            var count_t_2_to_4 = 0;
+                                            var count_t_4_to_6 = 0;
+                                            for (const time in element){
+                                                if(time == "t_8_to_10" && element[time] === false){
+                                                    count_t_8_to_10 += 1;
+                                                }
+                                                if(time == "t_10_to_12" && element[time] === false){
+                                                    count_t_10_to_12 += 1;
+                                                }
+                                                if(time == "t_12_to_2" && element[time] === false){
+                                                    count_t_12_to_2 += 1;
+                                                }
+                                                if(time == "t_2_to_4" && element[time] === false){
+                                                    count_t_2_to_4 += 1;
+                                                }
+                                                if(time == "t_4_to_6" && element[time] === false){
+                                                    count_t_4_to_6 += 1;
+                                                }
+                                            }
+
+                                            // if available count for a time slot is > 0, we set the time slot as true
+                                            if(count_t_8_to_10 > 0){
+                                                this.t_8_to_10 = true;
+                                            }
+                                            if(count_t_10_to_12 > 0){
+                                                this.t_10_to_12 = true;
+                                            }
+                                            if(count_t_12_to_2 > 0){
+                                                this.t_12_to_2 = true;
+                                            }
+                                            if(count_t_2_to_4 > 0){
+                                                this.t_2_to_4 = true;
+                                            }
+                                            if(count_t_4_to_6 > 0){
+                                                this.t_4_to_6 = true;
+                                            }
+                                        });
+                                    }
+                                })
+            },
+            checkout: function(){
+                this.error = []; // resetting the error array for each click on the checkout button
+                var deliveryItem = $("#deliveryItem").val();
+                var description = $("#description").val();
+                var size = $("#size").val();
+                var weight = $("#weight").val();
+                var pickup = $("#pickup").val();
+                var pickupPostalCode = $("#pickupPostalCode").val();
+                var destination = $("#destination").val();
+                var destinationPostalCode = $("#destinationPostalCode").val();
+                var receiver_name = $("#receiver_name").val();
+                var date = $("#date").val();
+                var time = $("#time").val();
+
+                //form validation for the delivery form
+                if(deliveryItem == ""){
+                    this.error.push("Please enter a name for the item!");
+                }
+                if(description == ""){
+                    this.error.push("Please enter a description for the item!");
+                }
+                if(size == ""){
+                    this.error.push("Please the size of the item!");
+                }
+
+                if(pickup == ""){
+                    this.error.push("Please enter a pickup location for the item!");
+                } 
+                if(pickup.includes('Singapore') || pickup.includes('singapore')){
+                    this.error.push("Please include the pickup postal code in the postal code field instead!");
+                }
+                if(pickupPostalCode == ""){
+                    this.error.push("Please enter the pickup postal code!");
+                }
+
+                if(destination.includes('Singapore') || destination.includes('singapore')){
+                    this.error.push("Please include the destination postal code in the postal code field instead!");
+                }
+                if(destinationPostalCode == ""){
+                    this.error.push("Please enter the destination postal code!");
+                }
+                if(destination == ""){
+                    this.error.push("Please enter a destination address for the item!");
+                } 
+                if(receiver_name == ""){
+                    this.error.push("Please enter the name of the receiver!");
+                }
+                if(date == ""){
+                    this.error.push("Please enter a date!");
+                }
+                if(time == "No available timings!"){
+                    this.error.push("Please select a day with available timings!");
+                }
+                
+                var stripe = Stripe('pk_test_51IX1pfEh2v7rRS8AqOB3PG6BLj1qQh8g4V0oI5GLProGPMmJRG60qzCXGH0297oQKyRIblMPKhFPlQEshp993pBN00CvpCrI7z');
+
+                if(this.error.length === 0){
+
+                    delivery_data = {
+                        "delivery_item": deliveryItem,
+                        "description": description,
+                        "pickup": pickup,
+                        "pickupPostalCode": pickupPostalCode,
+                        "destination": destination,
+                        "destinationPostalCode": destinationPostalCode,
+                        "receiver_name": receiver_name,
+                        "date": date,
+                        "time": time
+                    };
+                    json = JSON.stringify(delivery_data);
+                    account_details = JSON.parse(localStorage.getItem("account_details"));
+
+                    //invoking payment microservice
+                    
+                    fetch("http://127.0.0.1:8000/api/v1/create_checkout_session", {
+                        method: "POST",
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            "deliveryItem": deliveryItem,
+                            "description": description,
+                            "size": size,
+                            "weight": weight,
+                            "delivery_data": delivery_data,
+                            "account_details": account_details
+                        }),
+                    })
+                    .then(function (response) {
+                        return response.json();
+                    })
+                    .then(function (session) {
+                        return stripe.redirectToCheckout({ sessionId: session.id });
+                    })
+                    .then(function (result) {
+                    // If redirectToCheckout fails due to a browser or network error, you should display the localized error message to your customer using error.message.
+                        if (result.error) {
+                            alert(result.error.message);
+                        }
+                    })
+                    .catch(function (error) {
+                        console.error("Error:", error);
+                    });
+                }
+            }
+        }
+    });
+
+</script>
+    
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+
+    <!-- External CSS styling -->
+    <link rel="stylesheet" href="css/login.css">
+
+    <!--CSS Template-->
+    <link rel="stylesheet" type="text/css" href="css-template.css" />
+
+    <!--Import Rubik font-->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+    </style>
+
+    <!--Import Roboto font-->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+    </style>
+
+    <!--Import Patua One font-->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Patua+One&display=swap');
+    </style>
+
+    <!-- JQuery  -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <title>Login Page</title>
+</head>
+
+<body>
+
+    <header> 
+        <img class="logo" src="images/logo.jpg" width='80px;' height='40px;' alt="logo">
+        <nav>
+            <ul class="nav__links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">View Deliveries</a></li>
+                <li><a href="#">Add New Delivery</a></li>
+                <li><a href="#">Profile</a></li>
+            </ul>
+        </nav>
+        <a class="LogOut" href="#"><button class='btn'>Log Out</button></a>
+    </header>
+
+    <div class="container-fluid" style="background-color: #F7F0E6;">
+
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="display-4">Login Page</h1>
+                <p class="lead">Login as a customer or a driver!</p>
+            </div>
+        </div>
+
+        <form>
+
+            <div class="container">
+                <!-- Username -->
+                <div class="row">
+                    <div class="col-md">
+                        <div class="form-group">
+                            <label for="deliveryItem">Username</label>
+                            <input type="text" class="form-control" id="username" placeholder="Enter Username" value="">
+                        </div>
+                    </div>
+                </div>
+                <!-- Password -->
+                <div class="row">
+                    <div class="col-md">
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password" placeholder="Enter Password" value="">
+                        </div>
+                    </div> 
+                </div>
+                <!-- role -->
+                <label for="role">Are you a customer?</label>
+                <select class="form-control" id="role">
+                    <option value="customer">Customer</option>
+                    <option value="driver">Driver</option>
+                </select>
+                <br>
+                <!-- submit button -->
+                <button type="button" class="btn btn-primary mb-3" id="login-button">Login</button>
+            </form>
+                
+            </div>
+
+<script>
+    $("#login-button").click(function() {
+        var username = $("#username").val();
+        var password = $("#password").val();
+        var role = $("#role").val();
+        console.log(role)
+        serviceURL = "http://localhost:5105/authenticate"
+
+        fetch(serviceURL, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "username": username,
+                "password": password,
+                "role": role
+            })
+        })
+        .then(function (response) {
+            data = response.json();
+            localStorage.setItem("login", data);
+            location.replace("http://localhost/esd/project/delivery_order.html");
+            return data
+        })
+        .then(function (result) {
+          // If redirectToCheckout fails due to a browser or network
+          // error, you should display the localized error message to your
+          // customer using error.message.
+            if (result.error) {
+                alert(result.error.message);
+            }
+        })
+        .catch(function (error) {
+            console.error("Error:", error);
+        });
+
+    });
+
+</script>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

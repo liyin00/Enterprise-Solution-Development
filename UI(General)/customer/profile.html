@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+
+    <!-- External CSS styling -->
+    <link rel="stylesheet" href="../css/profile.css">
+
+    <!--CSS Template-->
+    <link rel="stylesheet" type="text/css" href="css-template.css" />
+
+    <!--Import Rubik font-->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+    </style>
+
+    <!--Import Roboto font-->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+    </style>
+
+    <!--Import Patua One font-->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Patua+One&display=swap');
+    </style>
+
+    <title>Customer's Profile'</title>
+    
+    </head>
+    <body>
+        
+    <header> 
+        <img class="logo" src="../images/logo.jpg" width='80px;' height='40px;' alt="logo">
+        <nav>
+            <ul class="nav__links">
+                <li><a href="../customer/customer_home.html">Home</a></li>
+                <li><a href="./customer_view_delivery_details.html">View Deliveries</a></li>
+                <li><a href="delivery_order.html">Add New Delivery</a></li>
+                <li><a href="../customer/profile.html">Profile</a></li>
+            </ul>
+        </nav>
+        <button id="log-out" class='btn'>Log Out</button>
+    </header>
+
+<!-- this html file is not part of our user scenario and is static -->
+
+<div class = "container" id = "bigbox">
+
+    <div class = "row">
+
+        <!-- MINI BOX AT THE LEFT SIDE -->
+        <div class = "col-lg-4 my-3">
+            <div class="card card-fluid">
+                <h6 class="card-header" style="background-color: #eee2cc;" id="passwordheader">Profile</h6>
+                <nav class="nav flex-column nav-tabs">
+                    <a href="./Profile v2.php" class="nav-link active" style="background-color: #fffaf0; font-size: 18px; font-family: 'Rubik', cursive;"> Display Profile</a>
+                    <a href="password.html" class="nav-link" style="background-color: #fffaf0; font-size: 18px; font-family: 'Rubik', cursive;">Change Password</a>
+                </nav>
+            </div>
+        </div>
+
+        <!-- BIG BOX AT THE RIGHT SIDE -->
+        <div class="col-lg-8 my-3 bigbox">
+            <div class="card card-fluid">
+                <h6 class="card-header" style="background-color: #eee2cc;" id="passwordheader">My Profile</h6>
+                <div class="card-body" style="background-color: #fffaf0;">
+
+                <div class = "row justify-content-center">
+                    <img src="../images/avatar.PNG" style="width: auto; height: 200px;" >
+                </div>
+
+                <div style="padding: 15px; color:#9E8A81;">
+                    <div class = "row my-3 justify-content-center" style="font-family: 'Patua One', cursive; margin-left:20px;"><h3 style="font-size: 35px;">Personal Details</h3></div>
+                <div class = "row justify-content-center" style="font-size: 18px; font-family: 'Roboto'; margin-left:20px;"><p>Name: Ulu Bata</p></div>
+                <div class = "row justify-content-center" style="font-size: 18px; font-family: 'Roboto'; margin-left:20px;"><p>Email: ulubata123@gmail.com</p></div>
+                <div class = "row justify-content-center" style="font-size: 18px; font-family: 'Roboto'; margin-left:20px;"><p>Mobile: 91234567</p></div>
+                <div class = "row justify-content-center" style="font-size: 18px; font-family: 'Roboto'; margin-left:20px;"><p>Telegram ID: @ulubata123</p></div>
+                </div>
+                
+                <button type="submit" class="btn" style="font-size: 20px; font-family: 'Patua One', cursive; width: 150px; margin-left: 43%;">Edit</button>
+
+                
+
+                </div>
+
+                <div>
+
+                </div>
+            
+                </div>
+            </div>
+        </div>
+        
+        
+
+    </div>
+</div>
+
+<script>
+    document.getElementById("log-out").addEventListener("click", function(){
+            localStorage.clear();
+            location.replace("../landing.html");
+        });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+</body>
+</html>
