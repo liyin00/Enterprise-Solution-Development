@@ -1,4 +1,4 @@
-Please do the following before using our application :D
+# Steps on using this codebase 
 
 - Please turn on WAMP.
 
@@ -6,7 +6,7 @@ Please do the following before using our application :D
 
 - Once our app is running, you can navigate the UI starting from UI(General)/landing.html.
 
--We have implemented an API gateway which might lead to some cold-start problems, but it will become a lot faster for subsequent reloads. Please be patient and refrain from double-clicking. We have also implemented an external RDS database that is based in Singapore to allow for quick retrieval of data. More info is given at the bottom of this .txt file.
+We have implemented an API gateway which might lead to some cold-start problems, but it will become a lot faster for subsequent reloads. Please be patient and refrain from double-clicking. We have also implemented an external RDS database that is based in Singapore to allow for quick retrieval of data. More info is given at the bottom of this .txt file.
 
 - Currently, we have 2 customer and 3 driver accounts. 
     customer 1 username, password= jingwei, password
@@ -24,12 +24,11 @@ You can login as the customer to add new deliveries, or login as the driver to v
 - When choosing a date for the delivery, please choose the dates from 15th April (submission date) - 30th April only. This is because our service uses the 'schedule' microservice which has its own exclusive 'schedule' database. When the user picks a particular date for a delivery, we also need to have data in the schedule database corresponding to this date. Since we have limited storage space on our free-tier RDS database, schedules are created in the month of April 2021 only.
 
 
-
 Additional Info:
 Our simple microservices are tied to their respective databases on an external AWS RDS database hosted on the cloud. We believe that using an external database provides convenience as the grading committee would not have to manually import all the required sql files to test our application. It also makes sense in the context of our application as drivers/customers might need to add or update deliveries at many different locations, making it more suitable to host our database on the cloud rather than locally.
 
 The SQL files that we have provided in the subfolder for each simple microservice provide a brief overview as to what it actually looks like within our RDS database. However, simply importing them will result in empty databases because we did not add any insertion statements. This is because our login microservice hashes passwords before storing it in the database for enhanced security, and we cannot predict the value of the hashed password. As such, we added all the data through our UI instead.
 
-To see the actual data, you could enter RDS through Ubuntu instead. Here is the command: 
-mysql -h esd-database.cjlm2oobbep2.ap-southeast-1.rds.amazonaws.com -P 3306 -u admin -p
-Password: Password123
+Team Members: Ling Li Yin, Sim Jing Wei, Goh Sian Ying, Lee Zong Han, Bernice Seah Shu Yu, Teo Yew Teng 
+
+
